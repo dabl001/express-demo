@@ -2,16 +2,22 @@ const { log, authentificating } = require('./logger');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const express = require('express');
-
 const app = express();
+
+// console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+// console.log(`app: ${app.get('env')}`);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(helmet());
-app.use(morgan('tiny'));
 app.use(log);
 app.use(authentificating);
+
+if (app.get('env') === 'development') {
+    app.use(morgan('tiny'));
+    console.log('Morgan is enabled because its development env');
+}
 
 const courses = [
     { id: 1, name: 'Node.js' },
