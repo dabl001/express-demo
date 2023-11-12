@@ -1,8 +1,17 @@
+const { log, authentificating } = require('./logger');
+const helmet = require('helmet');
+const morgan = require('morgan');
 const express = require('express');
 
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+app.use(helmet());
+app.use(morgan('tiny'));
+app.use(log);
+app.use(authentificating);
 
 const courses = [
     { id: 1, name: 'Node.js' },
