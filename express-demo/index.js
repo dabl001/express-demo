@@ -1,22 +1,31 @@
-const { log, authentificating } = require('./logger');
+const debug = require('debug')('app:startup');
+const config = require('config');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const { log } = require('./logger');
 const express = require('express');
 const app = express();
 
 // console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
 // console.log(`app: ${app.get('env')}`);
 
+//Configuration
+console.log('Application Name: ' + config.get('name'));
+console.log('Mail Server: ' + config.get('mail.host'));
+console.log('Mail Password: ' + config.get('mail.password'));
+
+app.set('view engine', 'pug');
+app.set('views', './views'); //defaul we dont have to write this
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(helmet());
 app.use(log);
-app.use(authentificating);
 
 if (app.get('env') === 'development') {
     app.use(morgan('tiny'));
-    console.log('Morgan is enabled because its development env');
+    debug('Morgan enabled...'); //console.log()
 }
 
 const courses = [
@@ -26,7 +35,10 @@ const courses = [
 ];
 
 app.get('/', (req, res) => {
-    res.send('Server response!');
+    res.render('index', {
+        title: 'My Express App',
+        message: 'Response from server',
+    });
 });
 
 app.get('/api/courses', (req, res) => {
