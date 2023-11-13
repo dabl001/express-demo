@@ -1,3 +1,4 @@
+const express = require('express');
 const debug = require('debug')('app:startup');
 const config = require('config');
 const helmet = require('helmet');
@@ -5,7 +6,6 @@ const morgan = require('morgan');
 const { log } = require('./middlewares/logger');
 const courses = require('./routes/courses');
 const main = require('./routes/main');
-const express = require('express');
 
 const app = express();
 
