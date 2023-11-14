@@ -1,17 +1,32 @@
 console.log('Start');
 
-getUser(1)
-    .then(displayUser)
-    .then(displayRepos)
-    .then(displayCommits)
-    .catch((error) => console.log('Error:', error.message));
+// getUser(1)
+//     .then(displayUser)
+//     .then(displayRepos)
+//     .then(displayCommits)
+//     .catch((error) => console.log('Error:', error.message));
+
+displayCommits();
 
 console.log('End');
+
+//Async and await
+async function displayCommits() {
+    try {
+        const user = await getUser(1);
+        const username = await displayUser(user);
+        const repos = await getRepositories(username);
+        const commits = await displayRepos(repos);
+        console.log(commits);
+    } catch (error) {
+        console.log('Error', error.message);
+    }
+}
 
 function displayUser(user) {
     return new Promise((resolve, reject) => {
         console.log(user);
-        resolve(getRepositories(user.gitHubUsername));
+        resolve(user.gitHubUsername);
     });
 }
 
@@ -23,10 +38,6 @@ function displayRepos(repos) {
             resolve(['async-demo', 'express-demo', 'vidly']);
         }, 2000);
     });
-}
-
-function displayCommits(commits) {
-    console.log(commits);
 }
 
 function getUser(id) {
