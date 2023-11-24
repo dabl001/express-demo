@@ -7,12 +7,43 @@ mongoose
 
 const courseSchema = new mongoose.Schema({
     _id: String,
-    tags: String,
+    tags: {
+        type: Array,
+        validate: {
+            isAsync: true,
+            validator: function (v) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        const result = v && v.length > 0;
+                        resolve(result);
+                    }, 4000);
+                });
+            },
+            message: 'A course should have at least one tag.',
+        },
+    },
     date: { type: Date, default: Date.now },
-    name: String,
+    name: { type: String, required: true, minlength: 5, maxlength: 255 },
     author: String,
+    category: {
+        type: String,
+        enum: ['web', 'mobile', 'network'],
+        required: true,
+        lowercase: true,
+        trim: true,
+        // uppercase: true
+    },
     isPublished: Boolean,
-    price: Number,
+    price: {
+        type: Number,
+        min: 10,
+        max: 200,
+        get: (v) => Math.round(v),
+        set: (v) => Math.round(v),
+        required: function () {
+            return this.isPublished;
+        },
+    },
     __v: Number,
 });
 
@@ -23,15 +54,20 @@ async function createCourse() {
     try {
         const course = new Course({
             name: 'Angular Course',
+            category: 'Web',
             author: 'Abylay Dauletkhan',
-            tags: ['angular', 'frontend'],
+            tags: ['frontend'],
             isPublished: true,
+            price: 15.5,
+            _id: '342dsfsdt43resfs',
         });
         const result = await course.save();
         console.log(result);
         mongoose.disconnect().then(console.log('Disconnected from MongoDB'));
-    } catch (error) {
-        console.error('Error creating course:', error.message);
+    } catch (ex) {
+        for (field in ex.errors) console.log(ex.errors[field].message);
+        // console.error('Error creating course:', error.message);
+        mongoose.disconnect().then(console.log('Disconnected from MongoDB'));
     }
 }
 
@@ -69,6 +105,7 @@ async function getCourses() {
         mongoose.disconnect().then(console.log('Disconnected from MongoDB'));
     } catch (error) {
         console.error('Failed to get courses', error.message);
+        mongoose.disconnect().then(console.log('Disconnected from MongoDB'));
     }
 }
 
@@ -113,4 +150,4 @@ async function deleteCourse(id) {
     }
 }
 
-deleteCourse('5a6900fff467b019a9001');
+createCourse('342dsfsdt43resfs');
