@@ -80,7 +80,7 @@ async function getCourses() {
         // lt (less than)
         // lte (less than or equal to)
         // in
-        // nin(not in)
+        // nin(not in);
         const pageNumber = 2;
         const pageSize = 10;
         const courses = await Course
@@ -95,7 +95,7 @@ async function getCourses() {
             //Contains Abylay i at the end makes case insensitive
             // .find({ author: /.*Abylay.*/i })
             .find({
-                isPublished: true,
+                _id: '342dsfsdt43resfs  ',
             })
             // .skip((pageNumber - 1) * pageSize)
             // .limit(pageSize)
@@ -150,4 +150,4 @@ async function deleteCourse(id) {
     }
 }
 
-createCourse('342dsfsdt43resfs');
+getCourses();
