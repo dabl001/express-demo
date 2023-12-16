@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 const router = express.Router();
 
 const genreSchema = new mongoose.Schema({
-    id: String,
-    date: { type: Date, default: Date.now },
     name: { type: String, required: true, minlength: 1, maxlength: 150 },
 });
 
