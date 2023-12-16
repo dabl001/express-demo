@@ -1,12 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { Genre, genreValidation } = require('../models/genres');
 const router = express.Router();
-
-const genreSchema = new mongoose.Schema({
-    name: { type: String, required: true, minlength: 1, maxlength: 150 },
-});
-
-const Genre = mongoose.model('Genre', genreSchema);
 
 router.get('/', async (req, res) => {
     const genres = await Genre.find().sort('name');
@@ -60,15 +55,6 @@ router.delete('/:id', async (req, res) => {
         res.status(404).send('Genre with given ID not found');
     }
 });
-
-function genreValidation(genre, res) {
-    if (!genre.name || !isNaN(genre.name)) {
-        res.status(400).send(
-            'new genre must have <name> and it must be string type'
-        );
-        return true;
-    } else return false;
-}
 
 // async function findGenre(req, res) {
 //     try {
