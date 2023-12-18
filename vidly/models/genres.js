@@ -15,4 +15,4 @@ function genreValidation(genre, res) {
     } else return false;
 }
 
-module.exports = { Genre, genreValidation };
+module.exports = { Genre, genreValidation, genreSchema };

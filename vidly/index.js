@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const main = require('./routes/main');
 const genres = require('./routes/genres');
 const customers = require('./routes/customers');
+const movies = require('./routes/movies');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/vidly.com', main);
 app.use('/vidly.com/api/genres', genres);
 app.use('/vidly.com/api/customers', customers);
+app.use('/vidly.com/api/movies', movies);
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
