@@ -48,38 +48,38 @@ function movieValidation(movie, res) {
 //     }
 // }
 
-async function addGenre(movieId, genre, res) {
-    try {
-        const movie = await Movie.findById(movieId);
-        movie.genre.push(genre);
-        movie.save();
-        res.send(movie);
-    } catch (err) {
-        console.error(err.message);
-        removeGenre.status(500).send('Error adding genre to the movie');
-        return;
-    }
-}
+// async function addGenre(movieId, genre, res) {
+//     try {
+//         const movie = await Movie.findById(movieId);
+//         movie.genre.push(genre);
+//         movie.save();
+//         res.send(movie);
+//     } catch (err) {
+//         console.error(err.message);
+//         removeGenre.status(500).send('Error adding genre to the movie');
+//         return;
+//     }
+// }
 
-async function removeGenre(movieId, genreId, res) {
-    try {
-        const movie = await Movie.findByIdAndUpdate(
-            movieId,
-            {
-                $pull: { genre: { _id: genreId } },
-            },
-            { new: true }
-        );
-        if (movie) {
-            res.send(movie);
-        } else {
-            res.status(404).send('Movie with given Id not found');
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error removing genre from Movie');
-        return;
-    }
-}
+// async function removeGenre(movieId, genreId, res) {
+//     try {
+//         const movie = await Movie.findByIdAndUpdate(
+//             movieId,
+//             {
+//                 $pull: { genre: { _id: genreId } },
+//             },
+//             { new: true }
+//         );
+//         if (movie) {
+//             res.send(movie);
+//         } else {
+//             res.status(404).send('Movie with given Id not found');
+//         }
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send('Error removing genre from Movie');
+//         return;
+//     }
+// }
 
-module.exports = { Movie, movieValidation, addGenre, removeGenre };
+module.exports = { Movie, movieValidation };
