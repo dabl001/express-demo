@@ -26,4 +26,4 @@ function customerValidation(customer, res) {
     }
 }
 
-module.exports = { Customer, customerValidation };
+module.exports = { Customer, customerValidation, customerSchema };

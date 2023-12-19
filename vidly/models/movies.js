@@ -82,4 +82,4 @@ function movieValidation(movie, res) {
 //     }
 // }
 
-module.exports = { Movie, movieValidation };
+module.exports = { Movie, movieValidation, movieSchema };

@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
         res.send(movie);
     } catch (err) {
         console.error(err.message);
-        res.status(404).send('Genre not found');
+        res.status(404).send('Error creating movie');
     }
 });
 // router.put('/:id', async (req, res) => {
