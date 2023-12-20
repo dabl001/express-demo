@@ -12,6 +12,7 @@ const Movie = mongoose.model('Movie', movieSchema);
 
 function movieValidation(movie, res) {
     if (
+        mongoose.Types.ObjectId.isValid(movie.genreId) === false ||
         !movie.title ||
         !isNaN(movie.title) ||
         typeof movie.title !== 'string' ||
@@ -21,7 +22,7 @@ function movieValidation(movie, res) {
         typeof movie.dailyRentalRate !== 'number'
     ) {
         res.status(400).send(
-            'New movie must have valid values for "title" (string), "numberInStock" (number), and "dailyRentalRate" (number).'
+            'New movie must have valid id for genreId & valid values for "title" (string), "numberInStock" (number), and "dailyRentalRate" (number).'
         );
         return true;
     } else {

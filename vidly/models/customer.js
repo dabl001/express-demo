@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const customerSchema = new mongoose.Schema({
     isGold: { type: Boolean, required: true, default: false },
     name: { type: String, required: true, minlength: 1, maxlength: 150 },
-    phone: { type: Number, required: true },
+    phone: { type: Number, unique: true, required: true },
 });
 
 const Customer = mongoose.model('Customer', customerSchema);

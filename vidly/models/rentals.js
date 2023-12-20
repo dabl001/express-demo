@@ -15,6 +15,8 @@ const Rental = mongoose.model('Rental', rentalSchema);
 function rentalValidation(rental, res) {
     const isDate = (dateString) => !isNaN(Date.parse(dateString));
     if (
+        mongoose.Types.ObjectId.isValid(rental.customerId) === false ||
+        mongoose.Types.ObjectId.isValid(rental.movieId) === false ||
         typeof rental.dateOut !== 'string' ||
         !isDate(rental.dateOut) ||
         typeof rental.dateReturn !== 'string' ||
@@ -23,7 +25,7 @@ function rentalValidation(rental, res) {
         typeof rental.rentalFee !== 'number'
     ) {
         res.status(400).send(
-            'New rental must have valid values for "dateOut" (date in object), "dateReturn" (date in object), and "rentalFee" (number).'
+            'New rental must have valid id for customerId and movieId and valid values for "dateOut" (date in object), "dateReturn" (date in object), and "rentalFee" (number).'
         );
         return true;
     } else {

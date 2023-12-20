@@ -11,7 +11,9 @@
     "author": "Abylay Dauletkhan",
     "license": "ISC",
     "dependencies": {
+        "bcrypt": "^5.1.1",
         "express": "^4.18.2",
+        "lodash": "^4.17.21",
         "mongoose": "^8.0.3"
     },
     "devDependencies": {
