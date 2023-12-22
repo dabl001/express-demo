@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const { Genre, genreValidation } = require('../models/genres');
+const auth = require('../middlewares/auth');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -18,7 +19,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     if (genreValidation({ name: req.body.name }, res) === true) return;
     const genre = new Genre({
         name: req.body.name,
