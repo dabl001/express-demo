@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { Genre, genreValidation } = require('../models/genres');
 const auth = require('../middlewares/auth');
+const isAdmin = require('../middlewares/admin');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -28,7 +29,7 @@ router.post('/', auth, async (req, res) => {
     res.send(genre);
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
     try {
         if (genreValidation({ name: req.body.name }, res) === true) return;
         const genre = await Genre.findByIdAndUpdate(
@@ -47,7 +48,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', [auth, isAdmin], async (req, res) => {
     try {
         const genre = await Genre.findByIdAndDelete(req.params.id);
         res.send(genre);
