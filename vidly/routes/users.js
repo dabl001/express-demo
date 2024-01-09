@@ -7,9 +7,13 @@ const { User, userValidation } = require('../models/users');
 
 const router = express.Router();
 
-router.get('/me', auth, async (req, res) => {
-    const user = await User.findById(req.user._id).select('-password');
-    res.send(user);
+router.get('/me', auth, async (req, res, next) => {
+    try {
+        const user = await User.findById(req.user._id).select('-password');
+        res.send(user);
+    } catch (ex) {
+        next(ex);
+    }
 });
 
 router.post('/', async (req, res) => {
