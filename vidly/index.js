@@ -1,4 +1,5 @@
 require('express-async-errors');
+require('winston-mongodb');
 const express = require('express');
 const winston = require('winston');
 const error = require('./middlewares/error');
@@ -14,9 +15,16 @@ const auth = require('./routes/auth');
 
 const app = express();
 
+process.on('uncaughtException', (ex) => {
+    winston.error(ex.message, ex);
+    process.exit(1);
+});
+
+winston.add(new winston.transports.File({ filename: 'logfile.log' }));
 winston.add(
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: 'logfile.log' })
+    new winston.transports.MongoDB({
+        db: 'mongodb+srv://dabl01:Abyl2001@cluster0.4oqyp.mongodb.net/vidly',
+    })
 );
 
 if (!config.get('jwtPrivateKey')) {
